@@ -10,7 +10,8 @@ function clamp(v,a,b){return Math.min(b,Math.max(a,v));}
 function lerp(a,b,t){return a+(b-a)*t;}
 
 var PAGE=document.body.getAttribute("data-page")||"";
-var PHONE="+91 93551 30555", TEL="+919355130555", TEL2="01135297764", MAIL="contact@odeowave.com";
+var PHONE="+91 93551 30555", TEL="+919355130555", TEL2="01135297764", MAIL="puneet@odeowave.in";
+var FORM_MAIL="sunainamahesh1@gmail.com";
 
 var NAVITEMS=[
   ["index.html","Home","home"],
@@ -173,12 +174,94 @@ document.querySelectorAll("form[data-enq]").forEach(function(f){
   f.addEventListener("submit",function(e){
     e.preventDefault();
     var d=new FormData(f);
-    var lines=["Name: "+(d.get("name")||""),"Contact: "+(d.get("contact")||""),
-      "Space: "+(d.get("space")||""),"Site: "+(d.get("site")||""),"","Brief:",(d.get("brief")||"")];
-    window.location.href="mailto:"+MAIL+"?subject="+encodeURIComponent("Project enquiry from odeowave.com")+
-      "&body="+encodeURIComponent(lines.join("\n"));
+    var btn=f.querySelector("button[type='submit']");
     var n=f.querySelector("[data-note]");
-    if(n) n.textContent="Opening your mail app with the enquiry filled in. In the live build this posts straight to the studio inbox.";
+
+    var name=(d.get("name")||"").trim();
+    var contact=(d.get("contact")||"").trim();
+    var space=d.get("space")||"";
+    var site=(d.get("site")||"").trim();
+    var brief=(d.get("brief")||"").trim();
+
+    if(!contact && !name){
+      if(n){
+        n.style.color="#f87171";
+        n.textContent="Please enter your name or contact details.";
+      }
+      return;
+    }
+
+    if(btn){
+      btn.disabled=true;
+      btn.setAttribute("data-orig",btn.innerHTML);
+      btn.innerHTML='Sending &hellip;';
+    }
+    if(n){
+      n.style.color="rgba(241,240,236,.7)";
+      n.textContent="Submitting your enquiry...";
+    }
+
+    var payload={
+      name: name || "(Not provided)",
+      contact: contact || "(Not provided)",
+      space: space,
+      site: site || "(Not specified)",
+      brief: brief || "(None)"
+    };
+
+    // Post to Vercel Serverless Function (/api/contact)
+    fetch("/api/contact",{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    })
+    .then(async function(res){
+      if(res.status === 404){
+        // On local static dev (like Live Server where /api is not running), fallback to FormSubmit
+        return fetch("https://formsubmit.co/ajax/" + FORM_MAIL,{
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify(Object.assign({}, payload, {
+            _subject: "Project enquiry from " + (name || "odeowave.in"),
+            _template: "table",
+            _captcha: "false"
+          }))
+        }).then(function(r){ return r.json(); });
+      }
+      var data = await res.json().catch(function(){ return {}; });
+      if(!res.ok){
+        throw new Error(data.error || "Failed to send");
+      }
+      return data;
+    })
+    .then(function(data){
+      if(btn){
+        btn.disabled=false;
+        btn.innerHTML=btn.getAttribute("data-orig")||'Send enquiry <span class="ar">&rarr;</span>';
+      }
+      f.reset();
+      if(n){
+        n.style.color="#4ade80";
+        n.textContent="Enquiry received! We'll review your project and get back to you shortly.";
+      }
+    })
+    .catch(function(err){
+      if(btn){
+        btn.disabled=false;
+        btn.innerHTML=btn.getAttribute("data-orig")||'Send enquiry <span class="ar">&rarr;</span>';
+      }
+      if(n){
+        n.style.color="#f87171";
+        n.textContent= (err && err.message && err.message.indexOf("RESEND_API_KEY") !== -1)
+          ? "Please add RESEND_API_KEY to your Vercel Environment Variables."
+          : "Could not send automatically. Please reach us at " + MAIL + " or call " + PHONE + ".";
+      }
+    });
   });
 });
 
