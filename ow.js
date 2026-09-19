@@ -10,7 +10,8 @@ function clamp(v,a,b){return Math.min(b,Math.max(a,v));}
 function lerp(a,b,t){return a+(b-a)*t;}
 
 var PAGE=document.body.getAttribute("data-page")||"";
-var PHONE="+91 93551 30555", TEL="+919355130555", TEL2="01135297764", MAIL="puneet@odeowave.in";
+var PHONE="+91 93551 30555", TEL="+919355130555", TEL2="+911135236078", MAIL="puneet@odeowave.in";
+var MAPS_URL="https://www.google.com/maps/place/ODEOWAVE/@28.5281382,77.2762818,17z";
 var FORM_MAIL="sunainamahesh1@gmail.com";
 
 var NAVITEMS=[
@@ -48,7 +49,7 @@ var NAVITEMS=[
       '<div><h4 style="color:rgba(241,240,236,.5);font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;margin:0 0 8px">Reach us</h4>'+
         '<a href="tel:'+TEL+'">'+PHONE+'</a><a href="mailto:'+MAIL+'">'+MAIL+'</a></div>'+
       '<div><h4 style="color:rgba(241,240,236,.5);font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;margin:0 0 8px">Studio</h4>'+
-        '<span style="color:rgba(241,240,236,.8);font-size:15px;line-height:1.5;display:block">B-112, Third Floor, DDA Sheds,<br>Okhla Phase 1, New Delhi 110020</span></div>'+
+        '<span style="color:rgba(241,240,236,.8);font-size:13.5px;line-height:1.45;display:block">B-112, DDA Sheds, Pocket A,<br>Okhla Phase I, Okhla Industrial Estate,<br>New Delhi, Delhi 110020, India</span></div>'+
     '</div>'+
   '</div>';
 
@@ -124,9 +125,9 @@ var NAVITEMS=[
         '<a href="contact.html">Contact</a></div>'+
       '<div><h4>Reach us</h4>'+
         '<a href="tel:'+TEL+'">'+PHONE+'</a>'+
-        '<a href="tel:'+TEL2+'">011 3529 7764</a>'+
+        '<a href="tel:'+TEL2+'">+91 11 35236078</a>'+
         '<a href="mailto:'+MAIL+'">'+MAIL+'</a>'+
-        '<a href="https://www.google.com/maps/search/?api=1&query=Okhla+Phase+1+New+Delhi+110020" target="_blank" rel="noopener">Okhla Phase 1, New Delhi</a></div>'+
+        '<a href="'+MAPS_URL+'" target="_blank" rel="noopener">Okhla Phase I, New Delhi</a></div>'+
     '</div>'+
     '<div class="fmark">ODEOWAVE</div>'+
     '<div class="fbot">'+
@@ -257,9 +258,7 @@ document.querySelectorAll("form[data-enq]").forEach(function(f){
       }
       if(n){
         n.style.color="#f87171";
-        n.textContent= (err && err.message && err.message.indexOf("RESEND_API_KEY") !== -1)
-          ? "Please add RESEND_API_KEY to your Vercel Environment Variables."
-          : "Could not send automatically. Please reach us at " + MAIL + " or call " + PHONE + ".";
+        n.textContent= (err && err.message) ? err.message : ("Could not send automatically. Please reach us at " + MAIL + " or call " + PHONE + ".");
       }
     });
   });
