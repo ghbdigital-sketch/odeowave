@@ -25,35 +25,39 @@
 
   /* ---------------- header ---------------- */
   (function header() {
-    var slot = $("site-nav"); if (!slot) return;
-    var onhero = document.querySelector(".hero, .pagehero") ? " onhero" : " solid";
-    var links = NAVITEMS.slice(1).map(function (n) {
-      return '<a href="' + n[0] + '"' + (PAGE === n[2] ? ' aria-current="page"' : '') + '>' + n[1] + '</a>';
-    }).join("");
-    slot.outerHTML =
-      '<nav class="nav' + onhero + '" id="nav" aria-label="Main">' +
-      '<a class="brand" href="index.html" aria-label="ODEOWAVE"><img class="brand-logo" src="Odeowave Logo White.png" alt="ODEOWAVE"></a>' +
-      '<div class="navlinks">' + links + '</div>' +
-      '<div class="navright">' +
-      '<a class="btn sm ghost phone" href="tel:' + TEL + '">' + PHONE + '</a>' +
-      '<a class="btn sm light cta" href="contact.html">Request a design</a>' +
-      '<button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">' +
-      '<i></i><i></i><i></i></button>' +
-      '</div>' +
-      '</nav>' +
-      '<div class="drawer" id="drawer" hidden>' +
-      '<nav aria-label="Mobile">' +
-      NAVITEMS.map(function (n) { return '<a href="' + n[0] + '">' + n[1] + '</a>'; }).join("") +
-      '</nav>' +
-      '<div class="foot">' +
-      '<div><h4 style="color:rgba(241,240,236,.5);font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;margin:0 0 8px">Reach us</h4>' +
-      '<a href="tel:' + TEL + '">' + PHONE + '</a><a href="mailto:' + MAIL + '">' + MAIL + '</a></div>' +
-      '<div><h4 style="color:rgba(241,240,236,.5);font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;margin:0 0 8px">Studio</h4>' +
-      '<span style="color:rgba(241,240,236,.8);font-size:13.5px;line-height:1.45;display:block">B-112, DDA Sheds, Pocket A,<br>Okhla Phase I, Okhla Industrial Estate,<br>New Delhi, Delhi 110020, India</span></div>' +
-      '</div>' +
-      '</div>';
+    var slot = $("site-nav");
+    if (slot) {
+      var onhero = document.querySelector(".hero, .pagehero") ? " onhero" : " solid";
+      var links = NAVITEMS.slice(1).map(function (n) {
+        return '<a href="' + n[0] + '"' + (PAGE === n[2] ? ' aria-current="page"' : '') + '>' + n[1] + '</a>';
+      }).join("");
+      slot.outerHTML =
+        '<nav class="nav' + onhero + '" id="nav" aria-label="Main">' +
+        '<a class="brand" href="index.html" aria-label="ODEOWAVE"><img class="brand-logo" src="Odeowave Logo White.png" alt="ODEOWAVE"></a>' +
+        '<div class="navlinks">' + links + '</div>' +
+        '<div class="navright">' +
+        '<a class="btn sm ghost phone" href="tel:' + TEL + '">' + PHONE + '</a>' +
+        '<a class="btn sm light cta" href="contact.html">Request a design</a>' +
+        '<button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">' +
+        '<i></i><i></i><i></i></button>' +
+        '</div>' +
+        '</nav>' +
+        '<div class="drawer" id="drawer" hidden>' +
+        '<nav aria-label="Mobile">' +
+        NAVITEMS.map(function (n) { return '<a href="' + n[0] + '">' + n[1] + '</a>'; }).join("") +
+        '</nav>' +
+        '<div class="foot">' +
+        '<div><h4 style="color:rgba(241,240,236,.5);font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;margin:0 0 8px">Reach us</h4>' +
+        '<a href="tel:' + TEL + '">' + PHONE + '</a><a href="mailto:' + MAIL + '">' + MAIL + '</a></div>' +
+        '<div><h4 style="color:rgba(241,240,236,.5);font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;margin:0 0 8px">Studio</h4>' +
+        '<span style="color:rgba(241,240,236,.8);font-size:13.5px;line-height:1.45;display:block">B-112, DDA Sheds, Pocket A,<br>Okhla Phase I, Okhla Industrial Estate,<br>New Delhi, Delhi 110020, India</span></div>' +
+        '</div>' +
+        '</div>';
+    }
 
     var nav = $("nav"), hero = document.querySelector(".hero, .pagehero"), drawer = $("drawer"), burger = $("burger");
+    if (!nav) return;
+    var brandLogo = nav.querySelector(".brand-logo");
 
     function state() {
       var y = window.scrollY, menu = document.body.classList.contains("menu");
@@ -61,6 +65,12 @@
       var overHero = !!hero && !menu && y < (hero.offsetHeight - navH);
       nav.classList.toggle("onhero", overHero);
       nav.classList.toggle("solid", menu || y > 20);
+      if (brandLogo) {
+        var targetSrc = (overHero || menu) ? "Odeowave Logo White.png" : "Odeowavelogo.png";
+        if (brandLogo.getAttribute("src") !== targetSrc) {
+          brandLogo.src = targetSrc;
+        }
+      }
     }
     window.addEventListener("scroll", state, { passive: true });
     window.addEventListener("resize", state);
