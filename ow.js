@@ -32,7 +32,7 @@
     }).join("");
     slot.outerHTML =
       '<nav class="nav' + onhero + '" id="nav" aria-label="Main">' +
-      '<a class="brand" href="index.html">ODEOWAVE</a>' +
+      '<a class="brand" href="index.html" aria-label="ODEOWAVE"><img class="brand-logo" src="Odeowave Logo White.png" alt="ODEOWAVE"></a>' +
       '<div class="navlinks">' + links + '</div>' +
       '<div class="navright">' +
       '<a class="btn sm ghost phone" href="tel:' + TEL + '">' + PHONE + '</a>' +
@@ -98,7 +98,7 @@
       '<footer>' +
       '<div class="fgrid">' +
       '<div>' +
-      '<div class="brand" style="font-size:16px">ODEOWAVE</div>' +
+      '<a class="brand footer-brand" href="index.html" aria-label="ODEOWAVE"><img class="brand-logo footer-logo" src="Odeowave Logo White.png" alt="ODEOWAVE"></a>' +
       '<p class="small" style="color:rgba(241,240,236,.6);margin-top:13px;max-width:34ch">' +
       'Audio, video, pro lighting and automation, designed and integrated for architectural spaces. ' +
       'Fifteen years, one accountable team.</p>' +
@@ -129,7 +129,7 @@
       '<a href="mailto:' + MAIL + '">' + MAIL + '</a>' +
       '<a href="' + MAPS_URL + '" target="_blank" rel="noopener">Okhla Phase I, New Delhi</a></div>' +
       '</div>' +
-      '<div class="fmark">ODEOWAVE</div>' +
+      '<div class="fmark" aria-hidden="true"><img class="fmark-logo" src="Odeowave Logo White.png" alt="ODEOWAVE"></div>' +
       '<div class="fbot">' +
       '<span>&copy; 2026 Odeowave. All rights reserved.</span>' +
       '</div>' +

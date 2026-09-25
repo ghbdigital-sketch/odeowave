@@ -48,8 +48,17 @@ p{margin:0}
   backdrop-filter:blur(6px);border-color:rgba(255,255,255,.14)}
 .nav.onhero .navlinks a{opacity:.82}
 .nav.onhero .navlinks a:hover,.nav.onhero .navlinks a[aria-current="page"]{opacity:1}
-.brand{font-family:var(--display);font-weight:900;font-size:17px;letter-spacing:.24em;
-  font-variation-settings:"wdth" 86;white-space:nowrap}
+.brand{display:inline-flex;align-items:center;line-height:1;text-decoration:none;white-space:nowrap}
+.brand-logo{height:28px;width:auto;max-width:200px;object-fit:contain;display:block;transition:filter .35s,opacity .3s}
+.brand:hover .brand-logo{opacity:.82}
+
+.nav.onhero .brand-logo,
+body.menu .nav .brand-logo{filter:none}
+.nav.solid:not(.onhero) .brand-logo{filter:brightness(0)}
+
+.footer-brand{display:inline-block;margin-bottom:6px}
+.footer-logo{height:26px;width:auto;max-width:180px;opacity:.95;display:block}
+.footer-brand:hover .footer-logo{opacity:1}
 .navlinks{display:flex;gap:clamp(14px,1.8vw,26px)}
 .navlinks a{font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;
   opacity:.72;transition:opacity .3s;white-space:nowrap}
@@ -115,20 +124,21 @@ body.menu .drawer{opacity:1;visibility:visible;transform:none}
 @keyframes zoom{to{transform:scale(1)}}
 .hero .scrim{position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(8,9,11,.66) 0%,rgba(8,9,11,.22) 36%,rgba(8,9,11,.84) 100%)}
-.hero .inner{position:relative;padding:0 var(--pad) 28px;width:100%}
+.hero .inner{position:relative;padding:calc(var(--nav-h) + clamp(20px,3.5vw,36px)) var(--pad) 28px;width:100%}
 .hero h1{max-width:16ch}
 .hero .sub{display:flex;justify-content:space-between;align-items:flex-end;gap:26px;flex-wrap:wrap;margin-top:24px}
 .hero .lead{color:rgba(255,255,255,.85);max-width:46ch}
 .hero .lbl{color:rgba(255,255,255,.7)}
 .hero .lbl b{color:#fff}
 .scrollcue{position:absolute;right:var(--pad);top:calc(var(--nav-h) + 20px);text-align:right}
-.pagehero{position:relative;min-height:clamp(320px,52vh,520px);display:flex;align-items:flex-end;
+.pagehero{position:relative;min-height:clamp(380px,56vh,560px);display:flex;align-items:flex-end;
   color:#fff;overflow:hidden}
 .pagehero .bg{position:absolute;inset:0}
 .pagehero .bg img{width:100%;height:100%;object-fit:cover}
 .pagehero .scrim{position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(8,9,11,.62) 0%,rgba(8,9,11,.3) 45%,rgba(8,9,11,.8) 100%)}
-.pagehero .inner{position:relative;padding:0 var(--pad) 32px;width:100%}
+.pagehero .inner{position:relative;padding:calc(var(--nav-h) + clamp(32px,5vw,60px)) var(--pad) clamp(30px,4.5vw,48px);width:100%}
+.pagehero .eyebrow{margin-bottom:clamp(16px,2.2vw,24px)}
 .pagehero .lead{color:rgba(255,255,255,.85);margin-top:18px}
 
 .logostrip{background:var(--ink);color:var(--paper);padding:13px 0;overflow:hidden;white-space:nowrap}
@@ -302,9 +312,8 @@ footer h4{color:rgba(241,240,236,.5);margin-bottom:12px;font-size:10.5px;letter-
   font-family:var(--mono);font-weight:500;text-transform:uppercase}
 footer a{display:block;padding:5px 0;color:rgba(241,240,236,.82);font-size:14px;transition:color .3s}
 footer a:hover{color:#fff}
-.fmark{font-family:var(--display);font-weight:900;font-size:clamp(28px,10.6vw,150px);
-  font-variation-settings:"wdth" 112;line-height:.82;letter-spacing:-.02em;margin-top:44px;opacity:.15;
-  white-space:nowrap;display:flex;justify-content:center;text-align:center;width:100%}
+.fmark{margin-top:44px;display:flex;justify-content:center;align-items:center;width:100%;overflow:hidden;pointer-events:none}
+.fmark-logo{width:min(100%,960px);height:auto;max-height:110px;object-fit:contain;opacity:.14;display:block}
 .fbot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:20px;
   border-top:1px solid rgba(241,240,236,.14);padding-top:16px}
 .fbot span{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
@@ -341,6 +350,9 @@ footer a:hover{color:#fff}
   .stats{gap:16px}
   .fgrid{grid-template-columns:repeat(auto-fit,minmax(min(100%,140px),1fr))}
   .fmark{margin-top:32px}
+  .fmark-logo{max-height:56px;opacity:.12}
+  .brand-logo{height:24px}
+  .footer-logo{height:22px}
   .tile{aspect-ratio:1/1}
   .card .ph{aspect-ratio:16/10}
   .w .ph{aspect-ratio:16/10}
